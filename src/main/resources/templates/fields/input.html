@@ -1,0 +1,13 @@
+<th:block th:fragment="input(type, fieldName, labelName, placeholder, required, disabled)">
+    <div class="form-group">
+        <div>
+            <label th:for="${fieldName}" th:text="${required == true ? '* ' + labelName : labelName}"></label>
+            <input class="form-control"
+                   th:type="${type}"
+                   th:field="*{__${fieldName}__}"
+                   th:placeholder="${placeholder}"
+                   th:required="${required}"
+                   th:disabled="${disabled}">
+        </div>
+    </div>
+</th:block>

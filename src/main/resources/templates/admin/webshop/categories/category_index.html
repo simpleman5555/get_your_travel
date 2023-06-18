@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container d-flex h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <a style="width:160px;" class="btn btn-primary mb-3 mt-3" th:href="@{'/admin/categories/addCategory'}">Add New
+        Category</a>
+    <div id="categoryMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <section class="overflow-x-auto">
+        <article>
+            <table class="table" id="categories">
+                <thead>
+                <tr>
+                    <th><a class="d-block"
+                           th:href="@{'/admin/categories/page/' + ${currentPage} + '?field=name&sortDir=' + ${sortDir}}">
+                        <i class="fa-solid fa-sort"></i> Category</a></th>
+                    <th><a class="d-block"
+                           th:href="@{'/admin/categories/page/' + ${currentPage} + '?field=sorting&sortDir=' + ${sortDir}}">
+                        <i class="fa-solid fa-sort"></i> Sorting</a></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="category: ${categories}" th:id="'id_' + ${category.id}">
+                    <td th:text="${category?.name}"></td>
+                    <td th:text="${category?.sorting}"></td>
+                    <td><a th:href="@{'/admin/categories/editCategory/' + ${category.id}}"
+                           class="btn btn-success">Edit</a></td>
+                    <td><a th:href="@{'/admin/categories/delete/' + ${category.id}}" class="btn btn-danger"
+                           id="confirmCategoryDeletion">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+        <article class="mt-4">
+            <div th:replace="fragments/pagination :: pagination-with-sorting(${field}, ${sortDir}, ${currentPage}, ${totalPages}, '/admin/categories', 'Categories')"></div>
+        </article>
+    </section>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

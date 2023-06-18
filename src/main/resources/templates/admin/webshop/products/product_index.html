@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container-fluid d-flex h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <a style="width:150px;" class="btn btn-primary mb-3 mt-3" th:href="@{'/admin/products/addProduct'}">Add New
+        Product</a>
+    <div id="productMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <section class="d-block d-sm-flex">
+        <aside class="mb-4">
+            <div th:replace="fragments/categories :: categories"></div>
+        </aside>
+        <article class="col-12 col-sm-8 m-auto overflow-x-auto">
+            <table class="table" id="products">
+                <thead>
+                <tr>
+                    <th><a class="d-block"
+                           th:href="@{'/admin/products/' + ${categoryName} + '/page/' + ${currentPage} + '?field=image&sortDir=' + ${sortDir}}">
+                        <i class="fa-solid fa-sort"></i> Image</a></th>
+                    <th><a class="d-block"
+                           th:href="@{'/admin/products/' + ${categoryName} + '/page/' + ${currentPage} + '?field=name&sortDir=' + ${sortDir}}">
+                        <i class="fa-solid fa-sort"></i> Product</a></th>
+                    <th><a class="d-block" href="#">Price</a></th>
+                    <th><a class="d-block" href="#">Category</a></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product: ${products}" th:id="'id_' + ${product.id}">
+                    <td>
+                        <img id="productImageSmall" style="width:100px;height:65px;cursor:pointer;"
+                             th:src="@{'/uploads/' + ${product.image}}"
+                             th:attrappend="productName=${product?.name}"
+                             data-bs-toggle="modal" data-bs-target="#imageModal">
+                    </td>
+                    <td th:text="${product?.name}"></td>
+                    <td th:text="${product?.sorting}"></td>
+                    <td th:text="'$ ' + ${product?.price}"></td>
+                    <td th:text="${product?.category?.name}"></td>
+                    <td><a th:href="@{'/admin/products/editProduct/' + ${product.id}}" class="btn btn-success">Edit</a>
+                    </td>
+                    <td><a th:href="@{'/admin/products/delete/' + ${product.id}}" class="btn btn-danger"
+                           id="confirmProductDeletion">Delete</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <div th:replace="fragments/pagination :: pagination-with-sorting(${field}, ${sortDir}, ${currentPage}, ${totalPages}, '/admin/products/' + ${categoryName}, 'Products')"></div>
+            </div>
+        </article>
+        <article>
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-dark" id="imageModalTitle"></h1>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="productImageLarge" width="90%" height="90%" src="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

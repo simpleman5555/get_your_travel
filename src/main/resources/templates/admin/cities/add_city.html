@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <h1 style="margin-top:5rem !important;color:rgba(0,0,0,.5);" class="mb-4">Add a city</h1>
+    <a href="/admin/cities" class="btn btn-primary mb-3">Back to cities</a>
+    <div id="cityMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{'/admin/cities/addCity'}" th:object="${city}" method="post" enctype="multipart/form-data">
+        <div th:replace="fields/input :: input('text', 'cityName', 'City:', 'city', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('cityName')}" th:errors="*{cityName}"></span>
+        <label for="countryId">* Country:</label>
+        <div class="form-group">
+            <select class="custom-select" id="countryId" name="countryId" required>
+                <option selected class="font-weight-bold" value="">-- Select a country --</option>
+                <option th:each="country: ${countries}" th:value="${country?.id}"
+                        th:text="${country?.country}"></option>
+            </select>
+        </div>
+        <label for="continentId">* Continent:</label>
+        <div class="form-group">
+            <select class="custom-select" id="continentId" name="continentId" required>
+                <option selected class="font-weight-bold" value="">-- Select a continent --</option>
+                <option th:each="continent: ${continents}" th:value="${continent?.id}"
+                        th:text="${continent?.continent}"></option>
+            </select>
+        </div>
+        <label for="languageId">* Language:</label>
+        <div class="form-group">
+            <select class="custom-select" id="languageId" name="languageId" required>
+                <option selected class="font-weight-bold" value="">-- Select a language --</option>
+                <option th:each="language: ${languages}" th:value="${language?.id}"
+                        th:text="${language?.language}"></option>
+            </select>
+        </div>
+        <div th:replace="fields/input :: input('number', 'population', 'Population approx:', 'population approx, e.g.: 15000', true)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('population')}" th:errors="*{population}"></span>
+        <div th:replace="fields/input :: input('text', 'videoLink', 'Video link:', 'Youtube link, etc.', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('videoLink')}" th:errors="*{videoLink}"></span>
+        <label for="mostPopular">* Part of most popular cities:</label>
+        <div class="form-group">
+            <select class="custom-select" id="mostPopular" name="mostPopular" required>
+                <option selected class="font-weight-bold" value="">-- Most popular city --</option>
+                <option th:value="true">Yes</option>
+                <option th:value="false">No</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>* Image:</label>
+            <input class="form-control" type="file" th:id="file" th:name="file" required>
+            <img id="imgPreview" class="mt-2 d-none" src="#">
+        </div>
+        <div th:replace="fields/textarea :: textarea('addCity', '15', '10', 'description', 'Description:', 'Description - anything you would write about the city', false)"></div>
+        <button type="submit" class="btn btn-danger mb-5">Add</button>
+    </form>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

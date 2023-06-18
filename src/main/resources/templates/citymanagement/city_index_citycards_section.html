@@ -1,0 +1,40 @@
+<div class="z-0 position-absolute" id="tourists">
+    <img th:src="@{'/media/tourists.png'}" alt="Tourists">
+</div>
+<section id="citycards" class="d-flex flex-wrap justify-content-center z-1">
+    <article class="p-3" th:each="city: ${dynamicallyChangeableCities}">
+        <div class="card text-dark" style="width: 18rem;">
+            <img class="cityImageSmall p-2" style="cursor:pointer;" th:src="@{'/uploads/' + ${city.image}}"
+                 th:attrappend="cityName=${city.cityName}"
+                 data-bs-toggle="modal" data-bs-target="#imageModal" width="285px" height="190px">
+            <input type="hidden" class="cityDescription" th:value="${city?.description}">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${city?.cityName}"></h5>
+                <p class="mt-3">
+                    <a class="btn btn-primary cityImageSmall" th:href="@{'/uploads/' + ${city.image}}"
+                       th:attrappend="cityName=${city.cityName}"
+                       data-bs-toggle="modal" data-bs-target="#imageModal" role="button">
+                        Description
+                    </a>
+                </p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:text="'Country: ' + ${city?.country?.country}"></li>
+                <li class="list-group-item" th:text="'Continent: ' + ${city?.continent?.continent}"></li>
+                <li class="list-group-item" th:text="'Language: ' + ${city?.language?.language}"></li>
+                <li class="list-group-item" th:text="'Population: ' + ${city?.population}"></li>
+            </ul>
+            <div class="card-body text-center">
+                <a style="font-size:0.85em;" th:href="${city?.videoLink}" class="card-link btn btn-success"
+                   target="_blank" th:text="'Youtube video about ' + ${city?.cityName}"></a>
+            </div>
+        </div>
+    </article>
+</section>
+<div class="z-0 position-absolute" id="documents">
+    <img class="d-block" th:src="@{'/media/documents.png'}" alt="Documents">
+    <em class="d-block mt-2 text-center">You are in safe with us!</em>
+</div>
+<section id="cityPagination" class="mt-4">
+    <div th:replace="fragments/pagination :: pagination-without-sorting(${currentPage}, ${totalPages}, '/cities')"></div>
+</section>

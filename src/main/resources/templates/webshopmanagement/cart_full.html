@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body class="h-100">
+<main class="container-fluid d-flex h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <section class="d-block d-sm-flex">
+        <aside id="categoriesSectionOfCheckoutPage">
+            <div th:replace="fragments/categories :: categories"></div>
+        </aside>
+        <section>
+            <div class="z-3 overlay text-center d-none">
+                <h4 style="color:rgba(0,0,0,.5);" class="display-4">Wait please...</h4>
+                <img src="/media/ajax-loader.gif">
+            </div>
+        </section>
+        <article class="col-12 col-sm-8 m-auto overflow-x-auto">
+            <h2 style="color:rgba(0,0,0,.5);" class="mb-4 mt-2 mb-sm-5 mt-sm-0">Cart Overview</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:180px !important;min-width:180px !important;">Image</th>
+                    <th style="width:180px !important;min-width:180px !important;">Product</th>
+                    <th style="width:200px !important;min-width:200px !important;">Quantity</th>
+                    <th style="width:125px !important;min-width:125px !important;">Price</th>
+                    <th style="width:125px !important;min-width:125px !important;">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cartElement: ${cart}">
+                    <td th:text="${cartElement?.value.name}"></td>
+                    <td>
+                        <span th:text="${cartElement?.value.quantity}"></span>
+                        <a class="btn btn-success btn-sm"
+                           th:href="@{'/products/cart/add/' + ${cartElement?.value?.id} + '?cartFull=true'}">+</a>
+                        <a class="btn btn-primary btn-sm"
+                           th:href="@{'/products/cart/subtract/' + ${cartElement?.value?.id}}">-</a>
+                    </td>
+                    <td th:text="'$ ' + ${cartElement?.value?.price}"></td>
+                    <td
+                            th:with="formattedPriceSum=${cartElement?.value?.price} * ${cartElement?.value?.quantity}"
+                            th:text="'$ ' + ${#numbers.formatDecimal(formattedPriceSum, 0, 'COMMA', 2, 'POINT')}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="text-right" colspan="4"><b>Grand Total:</b></td>
+                    <td colspan="1" th:text="'$ ' + ${#numbers.formatDecimal(priceSum, 0, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a class="btn btn-danger" th:href="@{'/products/cart/clear'}">Clear Cart</a>
+                    </td>
+                    <td class="text-right" colspan="4">
+                        <a class="btn btn-success checkout" href="#">Checkout</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <small>Of course the checkout process is not real, it's just a demo.</small>
+        </article>
+        <article>
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-dark" id="imageModalTitle"></h1>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="productImageLarge" width="90%" height="90%" src="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<div style="padding: 0 15px !important;" class="mb-4 z-1" th:each="product: ${products}">
+    <p>
+        <img id="productImageSmall" style="width:200px;height:150px;object-fit: cover;cursor:pointer;"
+             th:src="@{'/uploads/' + ${product.image}}"
+             th:attrappend="productName=${product?.name}"
+             data-bs-toggle="modal" data-bs-target="#imageModal">
+    </p>
+    <h4 style="color:#dc3545;" class="btn btn-outline-warning" th:text="${product?.name}"></h4>
+    <div style="color:#ffc107;margin-bottom:8px;" class="desc btn btn-outline-success d-block"
+         th:text="${product?.description}"></div>
+    <p style="color:rgba(0,0,0,.5);" class="btn btn-outline-secondary" th:text="'$' + ${product?.price}"></p>
+    <div style="position:relative;">
+        <p>
+            <a class="btn btn-primary addToCart"
+               th:attr="data-id=${product?.id}"
+            <img class="ajaxLoader d-none" src="/media/ajax-loader.gif">
+        </p>
+        <div class="btn btn-sm btn-success hide productAdded">Product added!</div>
+    </div>
+</div>

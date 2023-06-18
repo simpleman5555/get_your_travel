@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <h1 style="margin-top:5rem !important;color:rgba(0,0,0,.5);" class="mb-4"
+        th:text="'Edit category: ' + ${nameOfExistingCategory ?: category?.name}"></h1>
+    <a href="/admin/categories" class="btn btn-primary mb-3">Back to categories</a>
+    <div id="categoryMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{'/admin/categories/editCategory'}" th:object="${category}" method="post">
+        <div th:replace="fields/input :: input('text', 'name', 'Category name:', 'category name', false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <div th:replace="fields/input :: input('number', 'sorting', 'Sorting value:', 'sorting value', true)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('sorting')}" th:errors="*{sorting}"></span>
+        <input type="hidden" name="id" th:value="${category?.id}">
+        <input type="hidden" name="sorting" th:value="${category?.sorting}">
+        <div th:replace="fields/input :: input('text', 'createdBy', 'Created by:', 'Created by', false, true)"></div>
+        <div th:replace="fields/input :: input('text', 'createdDate', 'Created date:', 'Created date', false, true)"></div>
+        <div th:replace="fields/input :: input('text', 'lastModifiedBy', 'Modified by:', 'Modified by', false, true)"></div>
+        <div th:replace="fields/input :: input('text', 'lastModifiedDate', 'Modified date:', 'Modified date', false, true)"></div>
+        <button type="submit" class="btn btn-danger mb-5">Modify</button>
+    </form>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

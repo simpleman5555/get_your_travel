@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container-fluid d-flex h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <section class="d-block d-sm-flex">
+        <article class="col-12 col-sm-8 m-auto position-relative z-1">
+            <div class="z-0 position-absolute" id="webshopAssistant">
+                <img th:src="@{'/media/webshopAssistant.png'}" alt="Webshop assistant">
+            </div>
+            <h2 class="display-3 mb-4 mt-2 mb-sm-5 mt-sm-0 categoryName"
+                th:text="${categoryNameOfAll ?: categoryName}"></h2>
+            <div id="checkoutOfCartMessage" class="alert alert-success" th:if="${checkoutOfCart}"
+                 th:text="${checkoutOfCart}"></div>
+            <div class="d-flex flex-wrap justify-content-center" id="productElements">
+                <div th:replace="webshopmanagement/products_per_page"></div>
+            </div>
+        </article>
+        <article>
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-dark" id="imageModalTitle"></h1>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="productImageLarge" width="90%" height="90%" src="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

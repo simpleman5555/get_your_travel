@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <h1 style="margin-top:5rem !important;color:rgba(0,0,0,.5);" class="mb-4"
+        th:text="'Edit product: ' + ${nameOfExistingProduct ?: product?.name}">Edit a product</h1>
+    <a href="/admin/products" class="btn btn-primary mb-3">Back to products</a>
+    <div id="productMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{'/admin/products/editProduct'}" th:object="${product}" method="post"
+          enctype="multipart/form-data">
+        <div th:replace="fields/input :: input('text', 'name', 'Product name:', 'product name', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <label for="categoryId">* Category:</label>
+        <div class="form-group">
+            <select class="custom-select" id="categoryId" name="categoryId">
+                <option th:each="category: ${categories}" th:value="${category?.id}" th:text="${category?.name}"
+                        th:selected="${categoryOfSelect != null ? categoryOfSelect == category?.name : product?.category?.name == category?.name}"></option>
+            </select>
+        </div>
+        <div th:replace="fields/input :: input('text', 'price', 'Price:', 'price of the product', true)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+        <div class="form-group">
+            <label>* Image:</label>
+            <input class="form-control" type="file" th:id="file" th:name="file">
+            <span>
+                    <img id="imgPreview" class="mt-2 d-none" src="#">
+                    <br><br>
+                    <label>Current image:</label>
+                    <img style="width:200px;" th:src="@{'/uploads/' + ${product.image}}">
+                </span>
+        </div>
+        <div th:replace="fields/textarea :: textarea('editProduct', '15', 'description', 'Description:', 'Description - anything you would write about the product', false)"></div>
+        <div th:replace="fields/input :: input('number', 'sorting', 'Sorting value:', 'sorting value', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('sorting')}" th:errors="*{sorting}"></span>
+        <div th:replace="fields/input :: input('text', 'createdBy', 'Created by:', 'Created by', false)"></div>
+        <div th:replace="fields/input :: input('text', 'createdDate', 'Created date:', 'Created date', false)"></div>
+        <div th:replace="fields/input :: input('text', 'lastModifiedBy', 'Modified by:', 'Modified by', false)"></div>
+        <div th:replace="fields/input :: input('text', 'lastModifiedDate', 'Modified date:', 'Modified date', true)"></div>
+        <button type="submit" class="btn btn-danger mb-5">Modify</button>
+        <input type="hidden" name="id" th:value="${product?.id}">
+        <input type="hidden" name="image" th:value="${product?.image}">
+    </form>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

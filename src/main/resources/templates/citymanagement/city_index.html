@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body class="overflow-x-hidden">
+    <div style="padding:0 !important;" class="container-fluid d-flex h-100 p-3 mx-auto flex-column">
+        <header th:replace="fragments/navbar :: navbar"></header>
+        <main>
+            <section>
+                <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active position-relative carousel-div">
+                            <img class="w-100 h-100" th:src="@{'/media/slider1.jpg'}" alt="City during the day">
+                            <div class="carousel-caption d-none d-md-block carousel-text-1 text-center">
+                                <h5>You can visit many cities with us</h5>
+                                <p>You can be a part of these people's life</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item position-relative carousel-div">
+                            <img class="w-100 h-100" th:src="@{'/media/slider2.jpg'}" alt="Rest on the beach">
+                            <div class="carousel-caption d-none d-md-block carousel-text-2 text-center">
+                                <h5>Beach time</h5>
+                                <p>Everything is better near the sea with a drink...</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item position-relative carousel-div">
+                            <img class="w-100 h-100" th:src="@{'/media/slider3.jpg'}" alt="Dubai in the evening">
+                            <div class="carousel-caption d-none d-md-block carousel-text-3 text-center">
+                                <h5>Dubai night</h5>
+                                <p>You have to feel this freedom...</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </section>
+            <section class="mx-auto d-flex flex-column align-items-center position-relative">
+                <aside class="p-5 z-1" id="filterCities">
+                    <div class="form-group mr-2">
+                        <select class="custom-select" id="selectCity" name="id">
+                            <option selected class="font-weight-bold" th:value="City">City</option>
+                            <option th:each="city: ${citiesForSelect}" th:value="${city?.id}" th:text="${city?.cityName}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <select class="custom-select" id="selectCountry" name="countryId">
+                            <option selected class="font-weight-bold" th:value="Country">Country</option>
+                            <option th:each="country: ${countriesForSelect}" th:value="${country?.id}" th:text="${country?.country}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <select class="custom-select" id="selectContinent" name="continentId">
+                            <option selected class="font-weight-bold" th:value="Continent">Continent</option>
+                            <option th:each="continent: ${continentsForSelect}" th:value="${continent?.id}" th:text="${continent?.continent}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group mr-2">
+                        <a id="filterCitiesBtn" class="btn btn-success text-white d-block">Filter</a>
+                    </div>
+                    <div class="form-group">
+                        <a id="clearFilterCitiesBtn" class="btn btn-danger text-white d-block">Clear</a>
+                    </div>
+                </aside>
+                <section id="filterCitiesSection">
+                    <div th:replace="citymanagement/city_index_citycards_section"></div>
+                </section>
+            </section>
+            <section>
+                <article>
+                    <div class="modal fade text-dark" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5 text-dark" id="imageModalTitle"></h1>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img id="cityImageLarge" width="90%" height="90%" src="">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+        <section>
+            <div id="callToAction" class="jumbotron">
+                <h1 class="display-4">Contact us now!</h1>
+                <p class="lead">If you want great experiences and would like to build new relationships, don't think, you're looking for us!</p>
+                <hr class="my-4">
+                <p>Life is too short to think too much. Don't do it, just contact us and get your travel!</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" th:href="@{'/contact'}" target="_blank" role="button">Contact us</a>
+                </p>
+            </div>
+        </section>
+        <section class="mx-auto" id="mostPopularSection">
+            <h2 class="text-center mb-4">Most Popular</h2>
+            <section class="d-flex flex-wrap justify-content-center">
+                <article class="p-3" th:each="mostPopularCity: ${mostPopularCities}">
+                    <div class="card text-dark" style="width: 18rem;">
+                        <img class="cityImageSmall p-2" style="cursor:pointer;" th:src="@{'/uploads/' + ${mostPopularCity.image}}" th:attrappend="cityName=${mostPopularCity?.cityName}"
+                             data-bs-toggle="modal" data-bs-target="#imageModal" width="285px" height="190px">
+                        <input type="hidden" class="cityDescription" th:value="${mostPopularCity?.description}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${mostPopularCity?.cityName}"></h5>
+                            <p class="mt-3">
+                                <a class="btn btn-primary cityImageSmall" th:href="@{'/uploads/' + ${mostPopularCity.image}}" th:attrappend="cityName=${mostPopularCity?.cityName}"
+                                   data-bs-toggle="modal" data-bs-target="#imageModal" role="button">
+                                    Description
+                                </a>
+                            </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:text="'Country: ' + ${mostPopularCity?.country?.country}"></li>
+                            <li class="list-group-item" th:text="'Continent: ' + ${mostPopularCity?.continent?.continent}"></li>
+                            <li class="list-group-item" th:text="'Language: ' + ${mostPopularCity?.language?.language}"></li>
+                            <li class="list-group-item" th:text="'Population: ' + ${mostPopularCity?.population}"></li>
+                        </ul>
+                        <div class="card-body text-center">
+                            <a style="font-size:0.85em;" th:href="${mostPopularCity?.videoLink}" class="card-link btn btn-success" target="_blank" th:text="'Youtube video about ' + ${mostPopularCity?.cityName}"></a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </section>
+        <section class="mt-3">
+            <div id="newsletter" class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <p class="lead" id="subscribe">You can get our wonderful newsletter every week.</br>Don't miss out on this!</p>
+                    <form class="form-inline">
+                        <div class="form-group mx-sm-3 mb-2">
+                            <label for="inputemail" class="sr-only">Password</label>
+                            <input type="email" class="form-control" id="inputemail" placeholder="Email">
+                        </div>
+                        <button type="submit" class="btn btn-primary mb-2">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <footer th:replace="fragments/footer :: footer"></footer>
+    </div>
+</body>
+</html>

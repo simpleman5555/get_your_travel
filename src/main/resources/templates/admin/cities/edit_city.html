@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <h1 style="margin-top:5rem !important;color:rgba(0,0,0,.5);" class="mb-4"
+        th:text="'Edit city: ' + ${cityName ?: city?.cityName}"></h1>
+    <a href="/admin/cities" class="btn btn-primary mb-3">Back to cities</a>
+    <div id="cityMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{'/admin/cities/editCity'}" th:object="${city}" method="post" enctype="multipart/form-data">
+        <div th:replace="fields/input :: input('text', 'cityName', 'City:', 'city', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('cityName')}" th:errors="*{cityName}"></span>
+        <label for="countryId">* Country:</label>
+        <div class="form-group">
+            <select class="custom-select" id="countryId" name="countryId">
+                <option th:each="country: ${countries}" th:value="${country?.id}" th:text="${country?.country}"
+                        th:selected="${countryOfSelect != null ? countryOfSelect == country?.country : city?.country?.country == country?.country}"></option>
+            </select>
+        </div>
+        <label for="continentId">* Continent:</label>
+        <div class="form-group">
+            <select class="custom-select" id="continentId" name="continentId">
+                <option th:each="continent: ${continents}" th:value="${continent?.id}" th:text="${continent?.continent}"
+                        th:selected="${continentOfSelect != null ? continentOfSelect == continent?.continent : city?.continent?.continent == continent?.continent}"></option>
+            </select>
+        </div>
+        <label for="languageId">* Language:</label>
+        <div th:replace="fields/input :: input('number', 'population', 'Population approx:', 'population approx, e.g.: 15000', false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('population')}" th:errors="*{population}"></span>
+        <div th:replace="fields/input :: input('text', 'videoLink', 'Video link:', 'Youtube link, etc.', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('videoLink')}" th:errors="*{videoLink}"></span>
+        <label for="mostPopular">* Part of most popular cities:</label>
+        <div class="form-group">
+            <select class="custom-select" id="mostPopular" name="mostPopular">
+                <option th:each="mostPopularSelectOption: ${mostPopularSelectOptions}"
+                        th:value="${mostPopularSelectOption}"
+                        th:text="${mostPopularSelectOption == true ? 'Yes' : 'No'}"
+                        th:selected="${mostPopularSelectOption == city?.mostPopular}"></option>
+            </select>
+        </div>
+        <div th:replace="fields/textarea :: textarea('editCity', '15', '10', 'description', 'Description:', 'Description - anything you would write about the city', false, false)"></div>
+        <div th:replace="fields/input :: input('number', 'sorting', 'Sorting value:', 'sorting value', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('sorting')}" th:errors="*{sorting}"></span>
+        <div class="form-group">
+            <label>* Image:</label>
+            <input class="form-control" type="file" th:id="file" th:name="file">
+            <span>
+                    <img id="imgPreview" class="mt-2 d-none" src="">
+                    <br><br>
+                    <label>Current image:</label>
+                    <img style="width:200px;" th:src="@{'/uploads/' + ${city.image}}">
+                </span>
+        </div>
+        <input type="hidden" name="id" th:value="${city?.id}">
+        <input type="hidden" name="image" th:value="${city?.image}">
+        <div th:replace="fields/input :: input('text', 'createdBy', 'Created by:', 'Created by', false, true)"></div>
+        <div th:replace="fields/input :: input('text', 'createdDate', 'Created date:', 'Created date', false, true)"></div>
+        <div th:replace="fields/input :: input('text', 'lastModifiedBy', 'Modified by:', 'Modified by', false, true)"></div>
+        <div th:replace="fields/input :: input('text', 'lastModifiedDate', 'Modified date:', 'Modified date', false, true)"></div>
+        <button type="submit" class="btn btn-danger mb-5">Modify</button>
+    </form>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

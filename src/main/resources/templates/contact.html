@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body class="h-100">
+<main class="container d-flex h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <section class="position-relative">
+        <div class="z-0 position-absolute" id="contactAssistant">
+            <img th:src="@{'/media/contactAssistant.png'}" alt="Contact assistant">
+        </div>
+        <article class="col-8 col-sm-10 col-lg-8 m-auto z-1">
+            <h2 style="color:rgba(0,0,0,.5);" class="mt-3 mb-5 no-text-shadow">Send a message</h2>
+            <div id="contactMessage" class="alert alert-success" th:if="${contactMessage}"
+                 th:text="${contactMessage}"></div>
+            <form class="needs-validation" th:action="@{'/contact/send'}" th:object="${contact}" method="post"
+                  novalidate>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="John Doe"
+                           readonly>
+                    <label for="name">Name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com"
+                           value="john.doe@example.com" readonly>
+                    <label for="email">Email address</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
+                    <label for="subject">Subject</label>
+                    <div class="valid-feedback">
+                        Looks good, not required field.
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-3">Send</button>
+                <small class="d-block mt-1">As we don't collect and don't store any of user data, therefore the name and
+                    e-mail inputs are readonly.
+                    The form is for demo purposes only, so it validates the subject and message fields, and also
+                    simulates sending messages.</small>
+            </form>
+        </article>
+    </section>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+<script>
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation');
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+</body>
+</html>

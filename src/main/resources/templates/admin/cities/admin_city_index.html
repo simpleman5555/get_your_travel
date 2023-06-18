@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container-fluid d-flex h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <a style="width:130px;" class="btn btn-primary mb-3 mt-3" th:href="@{'/admin/cities/addCity'}">Add New City</a>
+    <div id="cityMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <section class="overflow-x-auto">
+        <article>
+            <table class="table" id="cities">
+                <thead>
+                <tr>
+                    <th><a class="d-block"
+                           th:href="@{'/admin/cities/page/' + ${currentPage} + '?field=image&sortDir=' + ${sortDir}}">
+                        <i class="fa-solid fa-sort">
+                    </i> Image</a>
+                    </th>
+                    <th><a class="d-block"
+                           th:href="@{'/admin/cities/page/' + ${currentPage} + '?field=cityName&sortDir=' + ${sortDir}}">
+                        <i class="fa-solid fa-sort"></i> City</a>
+                    </th>
+                    <th><a class="d-block" href="#">Country</a></th>
+                    <th><a class="d-block" href="#">Continent</a></th>
+                    <th><a class="d-block" href="#">Language</a></th>
+                    <th><a class="d-block" href="#">Population</a></th>
+                    <th><a class="d-block" href="#">Most popular</a></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="city: ${cities}" th:id="'id_' + ${city.id}">
+                    <td>
+                        <img id="cityImageSmall" style="width:100px;height:65px;cursor:pointer;"
+                             th:src="@{'/uploads/' + ${city.image}}" th:attrappend="cityName=${city?.cityName}"
+                             data-bs-toggle="modal" data-bs-target="#imageModal">
+                    </td>
+                    <td th:text="${city?.cityName}"></td>
+                    <td th:text="${city?.country?.country}"></td>
+                    <td th:text="${city?.sorting}"></td>
+                    <td th:text="${city?.continent?.continent}"></td>
+                    <td th:text="${city?.language?.language}"></td>
+                    <td th:text="${city?.population}"></td>
+                    <td th:text="${city?.mostPopular == true ? 'Yes' : 'No'}"></td>
+                    <td><a th:href="@{'/admin/cities/editCity/' + ${city.id}}" class="btn btn-success">Edit</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+        <article class="mt-4">
+            <div th:replace="fragments/pagination :: pagination-with-sorting(${field}, ${sortDir}, ${currentPage}, ${totalPages}, '/admin/cities', ${totalCities})"></div>
+        </article>
+        <article>
+            <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5 text-dark" id="imageModalTitle"></h1>
+                        </div>
+                        <div class="modal-body text-center">
+                            <img id="cityImageLarge" width="90%" height="90%" src="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

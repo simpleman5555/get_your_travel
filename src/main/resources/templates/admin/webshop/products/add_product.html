@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body>
+<main class="container h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <h1 style="margin-top:5rem !important;color:rgba(0,0,0,.5);" class="mb-4">Add a product</h1>
+    <a href="/admin/products" class="btn btn-primary mb-3">Back to products</a>
+    <div id="productMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{'/admin/products/addProduct'}" th:object="${product}" method="post"
+          enctype="multipart/form-data">
+        <div th:replace="fields/input :: input('text', 'name', 'Product name:', 'product name', false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <label for="categoryId">* Category:</label>
+        <div class="form-group">
+            <select class="custom-select" id="categoryId" name="categoryId" required>
+                <option selected class="font-weight-bold" value="">-- Select a category --</option>
+                <option th:each="category: ${categories}" th:value="${category?.id}"
+                        th:text="${category?.name}"></option>
+            </select>
+        </div>
+        <div th:replace="fields/input :: input('text', 'price', 'Price:', 'price of the product', true, false)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></span>
+        <div class="form-group">
+            <label>* Image:</label>
+            <input class="form-control" type="file" th:id="file" th:name="file" required>
+            <img id="imgPreview" class="mt-2 d-none" src="#">
+        </div>
+        <div th:replace="fields/textarea :: textarea('addProduct', '15', '4', 'description', 'Description:', 'Description - anything you would write about the product')"></div>
+        <button type="submit" class="btn btn-danger mb-5">Add</button>
+    </form>
+    <footer th:replace="fragments/footer :: footer"></footer>
+</main>
+</body>
+</html>

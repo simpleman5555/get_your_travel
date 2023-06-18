@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: header"></head>
+<body class="h-100">
+<main class="container h-100 p-3 mx-auto flex-column">
+    <header th:replace="fragments/navbar :: navbar"></header>
+    <h1 style="margin-top:5rem !important;color:rgba(0,0,0,.5);" class="mb-4">Add a category</h1>
+    <a href="/admin/categories" class="btn btn-primary mb-3">Back to categories</a>
+    <div id="categoryMessage" th:class="'alert ' + ${alertClass}" th:if="${message}" th:text="${message}"></div>
+    <form th:action="@{'/admin/categories/addCategory'}" th:object="${category}" method="post">
+        <div th:replace="fields/input :: input('text', 'name', 'Category name:', 'category name', true)"></div>
+        <span class="error d-block mb-3" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <button type="submit" class="btn btn-danger mb-5">Add</button>
+    </form>
+    <footer style="bottom:1rem;right:0px;left:0px;" class="position-fixed">
+        <div th:replace="fragments/footer :: footer"></div>
+    </footer>
+</main>
+</body>
+</html>

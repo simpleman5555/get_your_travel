@@ -1,0 +1,5 @@
+<p>You have <span th:text="${quantity}"></span> items in your cart.</p>
+<p>Total price is: <span th:text="'$ ' + ${#numbers.formatDecimal(priceSum, 0, 'COMMA', 2, 'POINT')}"></span></p>
+<p>
+    <a href="/products/cart/clear" class="btn btn-danger float-right">Clear cart</a>
+</p>

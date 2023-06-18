@@ -1,0 +1,102 @@
+<th:block
+        th:fragment="pagination-with-sorting(field, sortDir, currentPage, totalPages, beginningOfURL, totalItems, labelName)">
+    <nav style="color:black;" class="d-flex" aria-label="Page navigation">
+        <ul class="pagination m-auto">
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage > 1}"
+                   th:href="@{${beginningOfURL} + '/page/1?field=' + ${field} + '&sortDir=' + ${sortDir == 'asc' ? 'desc' : 'asc'}}">First</a>
+                <span class="page-link" th:unless="${currentPage > 1}">First</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage > 1}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${currentPage - 1} + '?field=' + ${field} + '&sortDir=' + ${sortDir == 'asc' ? 'desc' : 'asc'}}">Previous</a>
+                <span class="page-link" th:unless="${currentPage > 1}">Previous</span>
+            </li>
+            <li class="page-item d-flex">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link" th:if="${i != currentPage}"
+                       th:href="@{${beginningOfURL} + '/page/' + ${i} + '?field=' + ${field} + '&sortDir=' + ${sortDir == 'asc' ? 'desc' : 'asc'}}">[[${i}]]</a>
+                    <span class="page-link" th:unless="${i != currentPage}">[[${i}]]</span>
+                </span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage < totalPages}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${currentPage + 1} + '?field=' + ${field} + '&sortDir=' + ${sortDir == 'asc' ? 'desc' : 'asc'}}">Next</a>
+                <span class="page-link" th:unless="${currentPage < totalPages}">Next</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage < totalPages}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${totalPages} + '?field=' + ${field} + '&sortDir=' + ${sortDir == 'asc' ? 'desc' : 'asc'}}">Last</a>
+                <span class="page-link" th:unless="${currentPage < totalPages}">Last</span>
+            </li>
+        </ul>
+    </nav>
+    <p style="color:black;" class="mt-3 mr-3">Total [[${labelName}]]: [[${totalItems}]] - Page [[${currentPage}]] of [[${totalPages}]]</p>
+</th:block>
+
+<th:block th:fragment="pagination-without-sorting(currentPage, totalPages, beginningOfURL)">
+    <nav id="cityPagination" class="d-flex mb-3 overflow-x-auto mt-4" aria-label="Page navigation">
+        <ul class="pagination m-auto">
+            <li class="page-item">
+                <a class="page-link paginationBtnForCities" th:if="${currentPage > 1}"
+                   th:href="@{${beginningOfURL} + '/page/1'}">First</a>
+                <span class="page-link" th:unless="${currentPage > 1}">First</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link paginationBtnForCities" th:if="${currentPage > 1}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${currentPage - 1}}">Previous</a>
+                <span class="page-link" th:unless="${currentPage > 1}">Previous</span>
+            </li>
+            <li class="page-item d-flex">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link paginationBtnForCities" th:if="${i != currentPage}"
+                       th:href="@{${beginningOfURL} + '/page/' + ${i}}">[[${i}]]</a>
+                    <span class="page-link" th:unless="${i != currentPage}">[[${i}]]</span>
+                </span>
+            </li>
+            <li class="page-item">
+                <a class="page-link paginationBtnForCities" th:if="${currentPage < totalPages}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${totalPages}}">Last</a>
+                <span class="page-link" th:unless="${currentPage < totalPages}">Last</span>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+
+<th:block th:fragment="pagination-without-sorting-with-elementnumber(currentPage, totalPages, beginningOfURL)">
+    <nav style="color:black;" class="d-flex mb-3 overflow-x-auto" aria-label="Page navigation">
+        <ul class="pagination m-auto">
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage > 1}" th:href="@{${beginningOfURL} + '/page/1'}">First</a>
+                <span class="page-link" th:unless="${currentPage > 1}">First</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage > 1}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${currentPage - 1}}">Previous</a>
+                <span class="page-link" th:unless="${currentPage > 1}">Previous</span>
+            </li>
+            <li class="page-item d-flex">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link" th:if="${i != currentPage}" th:href="@{${beginningOfURL} + '/page/' + ${i}}">[[${i}]]</a>
+                    <span class="page-link" th:unless="${i != currentPage}">[[${i}]]</span>
+                </span>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:if="${currentPage < totalPages}"
+                   th:href="@{${beginningOfURL} + '/page/' + ${currentPage + 1}}">Next</a>
+                <span class="page-link" th:unless="${currentPage < totalPages}">Next</span>
+            </li>
+            <li class="page-item">
+                <span id="productElementsText" class="page-link">Products:</span>
+            </li>
+            <div class="form-group mr-2">
+                <select style="width:60px;" class="custom-select" id="productElementsPerPage">
+                    <option selected value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </div>
+        </ul>
+    </nav>
+</th:block>

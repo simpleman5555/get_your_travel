@@ -1,0 +1,18 @@
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}">
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}">
+    <title>Get Your Travel</title>
+    <link rel="stylesheet" th:href="@{/dist/css/bootstrap-v5.3.0.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/bootstrap-v4.0.0.min.css}">
+    <link rel="stylesheet" th:href="@{/dist/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/dist/js/jquery-3.6.3.min.js}"></script>
+    <script th:src="@{/dist/js/jquery-ui.min.js}"></script>
+    <script th:src="@{/dist/js/bootstrap-v5.3.0.bundle.min.js}"></script>
+    <script th:src="@{/dist/js/bootstrap-v4.0.0.bundle.min.js}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script th:src="@{/js/main.js}"></script>
+</head>

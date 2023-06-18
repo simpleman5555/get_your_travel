@@ -1,0 +1,16 @@
+<th:block th:fragment="textarea(id, cols, rows, fieldName, labelName, placeholder, required, disabled)">
+    <div class="form-group">
+        <div>
+            <label th:for="fieldName" th:text="${required == true ? '* ' + labelName : labelName}"></label>
+            <textarea class="form-control"
+                      th:id="${id}"
+                      th:cols="${cols}"
+                      th:rows="${rows}"
+                      th:field="*{__${fieldName}__}"
+                      th:placeholder="${placeholder}"
+                      th:required="${required}"
+                      th:disabled="${disabled}">
+            </textarea>
+        </div>
+    </div>
+</th:block>

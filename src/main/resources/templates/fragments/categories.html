@@ -1,0 +1,17 @@
+<div style="min-width:218px !important;" th:fragment="categories">
+    <h3 style="color: rgba(0,0,0,.5);" class="display-4 mb-3">Categories</h3>
+    <ul id="productCategoriesList" class="list-group">
+        <li id="all" class="list-group-item">
+            <a class="nav-link"
+               th:href="@{${webshopIndex == true ? '/products/all/page/1' : '/admin/products/all/page/1?field=sorting&sortDir=asc'}}">All
+                Products</a>
+        </li>
+        <li th:id="${category.name}" class="list-group-item" th:each="category: ${categories}">
+            <a class="nav-link" th:href="@{${webshopIndex == true ?
+        '/products/' + category?.name + '/page/1' :
+        '/admin/products/' + category?.name + '/page/1?field=sorting&sortDir=asc'
+      }}" th:text="${category?.name}"></a>
+        </li>
+    </ul>
+    <div th:replace="fragments/cart_partial_static"></div>
+</div>
