@@ -1,8 +1,6 @@
-( Various parts of the source code are intentionally missing - thank you for your understanding. )
+This is a responsive site related to travel arrangements.
 
 Used technologies: Spring Boot, jQuery, JPA, Bootstrap, CSS, HTML
-
-This is a responsive site related to travel arrangements.
 
 There are two types of authenticated users: a "normal" user (which means he isn't an admin) and admin. As an unauthenticated user man can see just the basic home page from where you can navigate to the login page and that's it.
 
